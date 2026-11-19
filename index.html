@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UzHamyon — pulingiz hisobini Telegram’da yuriting</title>
+<meta name="description" content="Xarajat va daromadni @uz_hamyonbot ga yozing yoki ovozli xabar yuboring. Bot toifaga ajratadi, siz tasdiqlaysiz. Hozircha bepul.">
+<meta property="og:title" content="UzHamyon — pulingiz hisobini oddiy xabar bilan yuriting">
+<meta property="og:description" content="Telegram bot va mini ilova. Yozing yoki gapiring — bot hisoblaydi.">
+<meta name="theme-color" content="#0B7A4B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B7A4B'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='15' fill='white' text-anchor='middle'%3EUH%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --accent:#0B7A4B; --accent-dark:#0A5C39; --accent-soft:#E4F1EA;
+    --ink:#101814; --muted:#3F4A44; --muted-2:#4A5550;
+    --bg:#F7F8F6; --card:#FFFFFF; --line:#E6EAE7; --dark:#0F1F17;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5}
+  h1,h2,h3{font-family:'Space Grotesk',Inter,sans-serif;margin:0}
+  p{margin:0}
+  a{color:var(--accent)}
+  a:hover{color:var(--accent-dark)}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+  .btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;border-radius:14px;padding:16px 26px;font-size:17px;transition:transform .15s ease, opacity .15s ease}
+  .btn:hover{transform:translateY(-1px);opacity:.92}
+  .btn-accent{background:var(--accent);color:#fff}
+  .btn-accent:hover{color:#fff}
+  .btn-dark{background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:15px}
+  .btn-dark:hover{color:#fff}
+  .btn-white{background:#fff;color:var(--accent-dark)}
+  .eyebrow{font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-dark)}
+  .h2{font-size:clamp(32px,3.6vw,44px);line-height:1.1;letter-spacing:-.01em}
+  .section{padding:96px 0}
+  .section-head{display:flex;flex-direction:column;gap:12px;max-width:640px;margin-bottom:48px}
+
+  /* nav */
+  header .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-top:24px;padding-bottom:24px}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+  .logo-mark{width:36px;height:36px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center}
+  .logo-text{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px}
+  nav{display:flex;flex-wrap:wrap;align-items:center;gap:24px;font-size:15px}
+  nav a.link{color:var(--muted);text-decoration:none}
+  nav a.link:hover{color:var(--ink)}
+
+  /* hero */
+  .hero{display:flex;flex-wrap:wrap;align-items:center;gap:56px;padding-top:48px;padding-bottom:96px}
+  .hero-text{flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:24px}
+  .pill{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--accent-soft);color:var(--accent-dark);font-size:14px;font-weight:600}
+  .hero h1{font-size:clamp(40px,5.6vw,68px);line-height:1.04;letter-spacing:-.02em}
+  .lead{font-size:20px;line-height:1.55;color:var(--muted);max-width:560px}
+  .cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+  .cta-note{font-size:15px;color:var(--muted-2)}
+  .hero-visual{flex:1 1 340px;display:flex;justify-content:center}
+
+  /* phone */
+  .phone{width:340px;max-width:100%;border-radius:40px;background:var(--ink);padding:12px;box-shadow:0 30px 60px rgba(16,24,20,.18)}
+  .screen{border-radius:30px;background:#DCE7DF;overflow:hidden}
+  .chat-head{background:#fff;padding:16px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #E3E8E5}
+  .avatar{width:38px;height:38px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px}
+  .chat-head small{display:block;font-size:12px;color:#5B6660}
+  .chat{padding:18px 14px 22px;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.45}
+  .msg-out{align-self:flex-end;max-width:80%;background:#E1F6CF;padding:10px 12px;border-radius:16px 16px 4px 16px}
+  .msg-in{align-self:flex-start;max-width:88%;background:#fff;padding:12px;border-radius:16px 16px 16px 4px;display:flex;flex-direction:column;gap:8px}
+  .row{display:flex;justify-content:space-between;gap:12px}
+  .row b{font-weight:600}
+  .kbd{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .kbd span{background:rgba(255,255,255,.75);text-align:center;padding:9px;border-radius:10px;font-weight:600;color:var(--muted)}
+  .kbd span:first-child{color:var(--accent-dark)}
+  .voice{align-self:flex-end;display:flex;align-items:center;gap:10px;background:#E1F6CF;padding:10px 12px;border-radius:16px 16px 4px 16px}
+  .play{width:28px;height:28px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center}
+  .voice small{font-size:12px;color:var(--muted-2)}
+
+  /* steps */
+  .white-band{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .grid{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .grid-3{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+  .step{display:flex;flex-direction:column;gap:14px;padding:28px;border-radius:20px;background:var(--bg)}
+  .step-num{font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;color:var(--accent)}
+  .step h3,.feature h3{font-size:22px}
+  .step p,.feature p{font-size:16px;line-height:1.6;color:var(--muted)}
+
+  /* features */
+  .feature{display:flex;flex-direction:column;gap:12px;padding:28px;border-radius:20px;background:var(--card);border:1px solid var(--line)}
+  .feature h3{font-size:20px}
+  .icon{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center}
+
+  /* dark band */
+  .dark{background:var(--dark);color:#F2F5F3}
+  .dark .inner{display:flex;flex-wrap:wrap;align-items:center;gap:56px}
+  .dark .txt{flex:999 1 460px;min-width:0;display:flex;flex-direction:column;gap:20px}
+  .dark .eyebrow{color:#8FD4B0}
+  .dark h2{color:#fff}
+  .dark p{font-size:18px;line-height:1.6;color:#C9D4CE;max-width:520px}
+  .dark .btn{align-self:flex-start;background:#fff;color:var(--dark);font-size:16px;padding:15px 24px}
+  .app{width:340px;max-width:100%;border-radius:28px;background:#fff;color:var(--ink);padding:22px;display:flex;flex-direction:column;gap:18px}
+  .balance{display:flex;flex-direction:column;gap:6px;padding:20px;border-radius:20px;background:var(--accent);color:#fff}
+  .balance small{font-size:12px;opacity:.9}
+  .balance strong{font-family:'Space Grotesk',sans-serif;font-size:30px}
+  .bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:4px;background:var(--accent)}
+  .cat{display:flex;flex-direction:column;gap:6px;font-size:14px}
+  .goal{display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:16px;background:var(--bg);font-size:14px}
+  .goal .bar i{background:var(--ink)}
+
+  /* faq */
+  .faq{max-width:860px}
+  .faq details{border-top:1px solid #DDE3DF;padding:22px 0}
+  .faq details:last-child{border-bottom:1px solid #DDE3DF}
+  .faq summary{cursor:pointer;list-style:none;font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:600;display:flex;justify-content:space-between;gap:16px;align-items:center}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:'+';font-size:24px;color:var(--accent)}
+  .faq details[open] summary::after{content:'–'}
+  .faq p{margin-top:10px;font-size:16px;line-height:1.6;color:var(--muted)}
+
+  /* final cta */
+  .final{border-radius:28px;background:var(--accent);color:#fff;padding:64px 40px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px}
+  .final h2{color:#fff;font-size:clamp(30px,3.4vw,42px);line-height:1.12;max-width:680px}
+  .final p{font-size:18px;color:#E8F5EE;max-width:520px}
+
+  footer{border-top:1px solid var(--line)}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;padding-top:32px;padding-bottom:32px;font-size:14px;color:var(--muted-2)}
+  footer a{color:var(--muted-2)}
+
+  @media (max-width:640px){
+    nav a.link{display:none}
+    .section{padding:64px 0}
+    .final{padding:48px 24px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="#top" class="logo">
+      <span class="logo-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h15a3 3 0 0 1 3 3v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><path d="M3 7l12-4v4"/><circle cx="16.5" cy="14" r="1.2"/></svg></span>
+      <span class="logo-text">UzHamyon</span>
+    </a>
+    <nav aria-label="Asosiy menyu">
+      <a class="link" href="#qanday">Qanday ishlaydi</a>
+      <a class="link" href="#imkoniyatlar">Imkoniyatlar</a>
+      <a class="link" href="#savollar">Savollar</a>
+      <a class="btn btn-dark" href="https://t.me/uz_hamyonbot">Botni ochish</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section id="top" class="wrap hero">
+    <div class="hero-text">
+      <span class="pill">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/></svg>
+        Telegram ichida ishlaydi · Hozircha bepul
+      </span>
+      <h1>Pulingiz hisobini oddiy xabar bilan yuriting</h1>
+      <p class="lead">Xarajat yoki daromadni botga yozing yoki ovozli xabar yuboring. UzHamyon uni tushunadi, toifaga ajratadi va siz tasdiqlaganingizdan keyin saqlaydi.</p>
+      <div class="cta-row">
+        <a class="btn btn-accent" href="https://t.me/uz_hamyonbot">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/></svg>
+          @uz_hamyonbot’ni ochish
+        </a>
+        <span class="cta-note">Ilova yuklab olish shart emas</span>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="phone" role="img" aria-label="Telegram chatida UzHamyon bot bilan suhbat namunasi">
+        <div class="screen">
+          <div class="chat-head">
+            <span class="avatar">UH</span>
+            <div><b>UzHamyon</b><small>bot</small></div>
+          </div>
+          <div class="chat">
+            <div class="msg-out">Taksiga 25 ming, tushlikka 40 ming berdim</div>
+            <div class="msg-in">
+              <b>2 ta xarajat topildi:</b>
+              <span class="row"><span>Transport</span><b>25 000 soʻm</b></span>
+              <span class="row"><span>Ovqatlanish</span><b>40 000 soʻm</b></span>
+              <span style="color:var(--muted-2)">Saqlaymi?</span>
+            </div>
+            <div class="kbd"><span>Tasdiqlash</span><span>Bekor qilish</span></div>
+            <div class="voice">
+              <span class="play"><svg width="12" height="12" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg></span>
+              <svg width="110" height="22" viewBox="0 0 110 22" aria-hidden="true"><g fill="#0B7A4B"><rect x="0" y="8" width="3" height="6" rx="1.5"/><rect x="6" y="4" width="3" height="14" rx="1.5"/><rect x="12" y="7" width="3" height="8" rx="1.5"/><rect x="18" y="2" width="3" height="18" rx="1.5"/><rect x="24" y="6" width="3" height="10" rx="1.5"/><rect x="30" y="9" width="3" height="4" rx="1.5"/><rect x="36" y="3" width="3" height="16" rx="1.5"/><rect x="42" y="7" width="3" height="8" rx="1.5"/><rect x="48" y="5" width="3" height="12" rx="1.5"/><rect x="54" y="9" width="3" height="4" rx="1.5"/><rect x="60" y="6" width="3" height="10" rx="1.5"/><rect x="66" y="3" width="3" height="16" rx="1.5"/><rect x="72" y="8" width="3" height="6" rx="1.5"/><rect x="78" y="5" width="3" height="12" rx="1.5"/><rect x="84" y="9" width="3" height="4" rx="1.5"/><rect x="90" y="7" width="3" height="8" rx="1.5"/><rect x="96" y="9" width="3" height="4" rx="1.5"/></g></svg>
+              <small>0:06</small>
+            </div>
+            <div class="msg-in">Ovozli xabar: “Oylik tushdi” — daromad sifatida saqlaymi?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="qanday" class="white-band section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Qanday ishlaydi</span>
+        <h2 class="h2">Uch qadam. Jadval, forma yoʻq.</h2>
+      </div>
+      <div class="grid">
+        <div class="step">
+          <span class="step-num">1</span>
+          <h3>Yozing yoki gapiring</h3>
+          <p>“Non va sutga 18 ming” deb yozing yoki ovozli xabar yuboring. Bitta xabarda bir nechta xarajat boʻlishi mumkin.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <h3>Tekshiring va tasdiqlang</h3>
+          <p>Bot summani va toifani koʻrsatadi. Hech narsa siz “Tasdiqlash”ni bosmaguningizcha saqlanmaydi.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <h3>Mini ilovada koʻring</h3>
+          <p>Balans, toifalar boʻyicha xarajatlar va maqsadlaringiz — hammasi Telegram ichidagi mini ilovada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="imkoniyatlar" class="wrap section">
+    <div class="section-head">
+      <span class="eyebrow">Imkoniyatlar</span>
+      <h2 class="h2">Hisob yuritish uchun kerakli hamma narsa</h2>
+    </div>
+    <div class="grid grid-3">
+      <div class="feature">
+        <span class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A5C39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></span>
+        <h3>Ovozli xabarlar</h3>
+        <p>Yozishga vaqt yoʻqmi? Gapiring — bot ovozni matnga aylantirib, xarajatni ajratib beradi.</p>
+      </div>
+      <div class="feature">
+        <span class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A5C39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h6"/><circle cx="18" cy="16" r="3"/></svg></span>
+        <h3>Avtomatik toifalar</h3>
+        <p>Sunʼiy intellekt har bir yozuvni toifaga ajratadi: oziq-ovqat, transport, internet va telefon va boshqalar.</p>
+      </div>
+      <div class="feature">
+        <span class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A5C39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <h3>Siz tasdiqlaysiz</h3>
+        <p>Bot hech qachon oʻzicha yozmaydi. Har bir yozuvni avval koʻrasiz, keyin saqlaysiz.</p>
+      </div>
+      <div class="feature">
+        <span class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A5C39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></span>
+        <h3>Jamgʻarma maqsadlari</h3>
+        <p>Telefon, safar yoki toʻy uchun maqsad qoʻying va har bir hissani qoʻshib boring.</p>
+      </div>
+      <div class="feature">
+        <span class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A5C39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg></span>
+        <h3>Kunlik eslatma</h3>
+        <p>Unutib qoʻymaysiz: bot har kuni bir marta bugungi xarajatlarni yozishni eslatadi.</p>
+      </div>
+      <div class="feature">
+        <span class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A5C39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/></svg></span>
+        <h3>Telegram mini ilovasi</h3>
+        <p>Balans va hisobotlarni chiroyli koʻrinishda koʻring — alohida ilova oʻrnatmasdan.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MINI APP -->
+  <section class="dark section">
+    <div class="wrap inner">
+      <div class="txt">
+        <span class="eyebrow">Mini ilova</span>
+        <h2 class="h2">Pulingiz qayerga ketayotganini bir qarashda koʻring</h2>
+        <p>Bot orqali kiritilgan har bir yozuv darhol mini ilovada paydo boʻladi: umumiy balans, toifalar va maqsadlar sari qadamlaringiz.</p>
+        <a class="btn" href="https://t.me/uz_hamyonbot">Sinab koʻrish</a>
+      </div>
+      <div class="hero-visual">
+        <div class="app" role="img" aria-label="UzHamyon mini ilovasi ekrani namunasi">
+          <div class="balance">
+            <small>Joriy balans</small>
+            <strong>3 240 000 soʻm</strong>
+            <small>Namuna maʼlumot</small>
+          </div>
+          <b style="font-size:15px">Bu oy, toifalar</b>
+          <div class="cat"><span class="row"><span>Ovqatlanish</span><span>1 120 000</span></span><span class="bar"><i style="width:72%"></i></span></div>
+          <div class="cat"><span class="row"><span>Transport</span><span>480 000</span></span><span class="bar"><i style="width:34%"></i></span></div>
+          <div class="cat"><span class="row"><span>Internet va telefon</span><span>150 000</span></span><span class="bar"><i style="width:12%"></i></span></div>
+          <div class="goal"><span class="row"><b>Maqsad: Noutbuk</b><span style="color:var(--muted-2)">45%</span></span><span class="bar"><i style="width:45%"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="savollar" class="wrap section faq">
+    <h2 class="h2" style="margin-bottom:32px">Koʻp beriladigan savollar</h2>
+    <details open>
+      <summary>UzHamyon pullikmi?</summary>
+      <p>Yoʻq, hozircha butunlay bepul.</p>
+    </details>
+    <details>
+      <summary>Ilova yuklab olishim kerakmi?</summary>
+      <p>Kerak emas. Hammasi Telegram ichida ishlaydi: bot va mini ilova.</p>
+    </details>
+    <details>
+      <summary>Bot xato tushunsa-chi?</summary>
+      <p>Har bir yozuv saqlanishdan oldin sizga koʻrsatiladi. Notoʻgʻri boʻlsa, “Bekor qilish”ni bosing va qaytadan yozing.</p>
+    </details>
+    <details>
+      <summary>Qanday boshlash mumkin?</summary>
+      <p>Telegramda <a href="https://t.me/uz_hamyonbot">@uz_hamyonbot</a> ni oching va “Start”ni bosing.</p>
+    </details>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="wrap" style="padding-bottom:96px">
+    <div class="final">
+      <h2>Bugungi birinchi xarajatingizni hoziroq yozing</h2>
+      <p>Bir daqiqa ham ketmaydi. Botni oching va xarajatingizni yozing.</p>
+      <a class="btn btn-white" href="https://t.me/uz_hamyonbot">@uz_hamyonbot’ni ochish</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 UzHamyon</span>
+    <div style="display:flex;gap:20px;flex-wrap:wrap">
+      <a href="https://t.me/uz_hamyonbot">Telegram</a>
+      <!-- TODO: Instagram linkini qoʻying -->
+      <a href="#">Instagram</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
