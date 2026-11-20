@@ -104,8 +104,8 @@
   --hand:'Neucha','Comic Neue',cursive;
   --sans:'Onest',system-ui,sans-serif;
   --cell:24px;
-  --gutter:120px;       /* content starts here */
-  --margin-x:88px;      /* red margin line */
+  --margin-x:clamp(36px,5vw,80px);                      /* red margin line, near the screen edge */
+  --gutter:calc(var(--margin-x) + clamp(20px,2.6vw,40px)); /* writing starts just after it */
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -127,7 +127,8 @@ a:hover{color:var(--ink-deep)}
 .skip:focus{left:8px}
 
 /* the notebook sheet: centred column with a red margin line down the whole page */
-.sheet{position:relative;max-width:1240px;margin:0 auto;padding:0 40px 0 var(--gutter)}
+.sheet{position:relative;padding:0 clamp(20px,4vw,64px) 0 var(--gutter)}
+.sheet>header,.sheet>main,.sheet>footer{max-width:1320px}
 .sheet::before{content:'';position:absolute;top:0;bottom:0;left:var(--margin-x);width:2px;background:var(--margin);opacity:.85}
 
 /* header */
@@ -199,7 +200,7 @@ a:hover{color:var(--ink-deep)}
 .steps{list-style:none;margin:48px 0 0;padding:0;max-width:720px}
 .steps li{position:relative;padding:20px 0 28px;border-bottom:1px solid var(--rule)}
 .steps li:first-child{border-top:1px solid var(--rule)}
-.steps .n{position:absolute;left:calc((var(--gutter) - var(--margin-x)) * -1 - 56px);top:12px;width:44px;text-align:right;font-family:var(--hand);font-size:40px;line-height:48px;color:var(--margin)}
+.steps .n{position:absolute;left:calc(var(--gutter) * -1 + 4px);width:calc(var(--margin-x) - 16px);top:12px;text-align:right;font-family:var(--hand);font-size:clamp(28px,3vw,40px);line-height:48px;color:var(--margin)}
 .steps h3{font-size:24px;line-height:32px;font-weight:700;letter-spacing:-.01em}
 .steps p{color:var(--muted);margin-top:6px;max-width:56ch}
 
@@ -278,12 +279,10 @@ footer a{color:var(--muted)}
   .app-grid .phone{max-width:380px}
 }
 @media (max-width:640px){
-  :root{--gutter:56px;--margin-x:36px}
   body{font-size:16px}
   .sheet{padding-right:20px}
   .top{height:80px}
   .top nav a.l{display:none}
-  .steps .n{left:-58px;width:30px;font-size:30px;top:14px}
   .written{font-size:27px}
   .written .text{white-space:normal}
   .examples thead{display:none}
